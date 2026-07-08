@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Untuk Kamu 🎂</title>
+
+<!-- Google Fonts: Dancing Script (judul) & Poppins (teks umum) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   1. DESIGN TOKENS
+   Pastel lembut (siang) → dark mode elegan + glitter (saat lilin ditiup)
+   ============================================================ */
+:root{
+  --bg-blush:      #FFF3EF;
+  --pink-soft:     #FFD3E0;
+  --pink-mid:      #FF9EBB;
+  --rose:          #F0628C;
+  --lavender:      #C9A7EB;
+  --gold:          #F4C95D;
+  --ink:           #4A2545;
+  --ink-soft:      #8A6A8E;
+  --card-bg:       rgba(255,255,255,0.74);
+  --shadow-soft:   0 20px 45px rgba(180,110,140,0.18);
+
+  --dark-bg:       #1C1030;
+  --dark-card:     rgba(255,255,255,0.06);
+  --dark-text:     #F3E8FF;
+  --dark-accent:   #F4C95D;
+
+  --font-display:  'Dancing Script', cursive;
+  --font-body:     'Poppins', sans-serif;
+
+  --radius-lg: 28px;
+  --radius-md: 16px;
+  --ease: cubic-bezier(.4,0,.2,1);
+}
+
+*{ box-sizing:border-box; margin:0; padding:0; }
+html,body{ height:100%; }
+body{
+  font-family: var(--font-body);
+  color: var(--ink);
+  background: radial-gradient(1200px 800px at 20% -10%, var(--pink-soft), transparent 60%),
+              radial-gradient(1200px 800px at 100% 110%, var(--lavender) 0%, transparent 55%),
+              var(--bg-blush);
+  min-height:100vh;
+  overflow-x:hidden;
+  transition: background 1.2s var(--ease), color 1.2s var(--ease);
+}
+body.lampu-mati{
+  background: radial-gradient(1200px 800px at 20% -10%, #2A1740, transparent 60%),
+              radial-gradient(1200px 800px at 100% 110%, #150B24 0%, transparent 55%),
+              var(--dark-bg);
+  color: var(--dark-text);
+}
+img, video{ max-width:100%; display:block; }
+
+/* ============================================================
+   2. LAYOUT HALAMAN
+   ============================================================ */
+.page{
+  position:fixed; inset:0;
+  display:flex; align-items:flex-start; justify-content:center;
+  padding: 40px 18px;
+  opacity:0; visibility:hidden;
+  transform: translateY(24px) scale(.98);
+  transition: opacity .7s var(--ease), transform .7s var(--ease), visibility .7s;
+  pointer-events:none;
+  overflow-y:auto;
+}
+.page.aktif{ opacity:1; visibility:visible; transform: translateY(0) scale(1); pointer-events:auto; }
+
+.kartu{
+  width:100%;
+  max-width: 640px;
+  background: var(--card-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.6);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+  padding: 38px 30px;
+  text-align:center;
+  position:relative;
+  z-index:2;
+  margin: auto 0;
+}
+body.lampu-mati .kartu{
+  background: var(--dark-card);
+  border-color: rgba(255,255,255,0.12);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+
+.eyebrow{
+  font-size: 12px; letter-spacing:.18em; text-transform:uppercase;
+  color: var(--rose); font-weight:600; margin-bottom: 10px;
+}
+body.lampu-mati .eyebrow{ color: var(--gold); }
+
+.judul{
+  font-family: var(--font-display); font-weight:700;
+  font-size: clamp(30px, 7vw, 44px); line-height:1.1;
+  color: var(--ink); margin-bottom: 14px;
+}
+body.lampu-mati .judul{
+  color: var(--dark-text);
+  text-shadow: 0 0 18px rgba(244,201,93,0.55), 0 0 40px rgba(201,167,235,0.35);
+}
+
+.teks{ font-size: 15px; line-height:1.75; color: var(--ink-soft); margin-bottom: 20px; }
+body.lampu-mati .teks{ color: #D9C6EA; }
+
+/* ============================================================
+   3. GALERI FOTO — grid fleksibel, muat 2-4 foto rapi
+   Tinggal ganti src pada tiap <img class="foto-galeri">
+   ============================================================ */
+.galeri-foto{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.foto-galeri{
+  width:100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 3px solid #fff;
+  box-shadow: 0 8px 20px rgba(180,110,140,0.28);
+  transition: transform .35s var(--ease);
+}
+.foto-galeri:hover{ transform: scale(1.04) rotate(-1deg); }
+body.lampu-mati .foto-galeri{ border-color: rgba(255,255,255,0.15); box-shadow: 0 8px 26px rgba(0,0,0,0.5); }
+
+/* Foto bulat kecil khusus (dipakai di halaman login) */
+.foto-bulat{
+  width: 110px; height:110px; object-fit:cover; border-radius:50%;
+  border:4px solid #fff; box-shadow: 0 10px 24px rgba(180,110,140,0.32);
+}
+.baris-foto-bulat{ display:flex; gap:14px; justify-content:center; margin-bottom:18px; flex-wrap:wrap; }
+
+/* ============================================================
+   4. GALERI VIDEO — sampai 2 video berdampingan (desktop),
+   otomatis stack di HP
+   ============================================================ */
+.galeri-video{
+  display:grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+@media (min-width: 560px){
+  .galeri-video{ grid-template-columns: 1fr 1fr; }
+}
+.galeri-video video{
+  width:100%;
+  border-radius: var(--radius-md);
+  background:#000;
+  box-shadow: 0 10px 26px rgba(180,110,140,0.28);
+}
+
+/* ============================================================
+   5. FORM & TOMBOL
+   ============================================================ */
+.grup-input{ text-align:left; margin-bottom: 16px; }
+.grup-input label{ display:block; font-size:12.5px; font-weight:600; color:var(--ink-soft); margin-bottom:6px; }
+body.lampu-mati .grup-input label{ color:#C9B3DE; }
+.grup-input input, .grup-input textarea{
+  width:100%; padding:13px 16px; border-radius:var(--radius-md);
+  border:1.5px solid #F0D6DE; background:#fff; font-family:var(--font-body);
+  font-size:14.5px; color:var(--ink); outline:none;
+  transition: border-color .3s, box-shadow .3s;
+}
+.grup-input textarea{ resize:vertical; min-height:90px; }
+.grup-input input:focus, .grup-input textarea:focus{
+  border-color: var(--rose); box-shadow: 0 0 0 4px rgba(240,98,140,0.15);
+}
+.petunjuk{ font-size:12px; color:var(--lavender); margin-top:6px; font-style:italic; }
+
+.tombol{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; cursor:pointer; font-family:var(--font-body); font-weight:600;
+  font-size:14.5px; padding:13px 26px; border-radius:999px;
+  transition: transform .25s var(--ease), box-shadow .25s var(--ease);
+  width:100%; margin-top:8px;
+}
+.tombol-utama{
+  background: linear-gradient(135deg, var(--rose), var(--pink-mid));
+  color:#fff; box-shadow: 0 12px 24px rgba(240,98,140,0.35);
+}
+.tombol-utama:hover{ transform: translateY(-2px); box-shadow: 0 16px 30px rgba(240,98,140,0.45); }
+.tombol-utama:disabled{ opacity:.6; cursor:not-allowed; transform:none; }
+.tombol-sekunder{ background:transparent; color:var(--ink-soft); border:1.5px solid #E9C9D3; }
+body.lampu-mati .tombol-sekunder{ color:#D9C6EA; border-color: rgba(255,255,255,0.25); }
+.tombol-sekunder:hover{ background: rgba(240,98,140,0.08); }
+.baris-tombol{ display:flex; gap:12px; margin-top:6px; flex-wrap:wrap; }
+.baris-tombol .tombol{ margin-top:0; flex:1; min-width:140px; }
+
+/* ============================================================
+   6. DEKORASI: KONFETI, BALON, GLITTER
+   ============================================================ */
+.lapisan-dekorasi{ position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.konfeti{
+  position:absolute; top:-10px; width:9px; height:14px; opacity:.9;
+  animation: jatuh linear infinite; border-radius:2px;
+}
+@keyframes jatuh{ 0%{ transform: translateY(-10vh) rotate(0deg); } 100%{ transform: translateY(110vh) rotate(360deg); } }
+.balon{
+  position:absolute; bottom:-140px; width:50px; height:62px;
+  border-radius:50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: naik linear infinite; opacity:.85;
+}
+.balon::after{ content:''; position:absolute; left:50%; bottom:-40px; width:1.5px; height:40px; background: rgba(150,120,150,0.4); }
+@keyframes naik{
+  0%{ transform: translateY(0) translateX(0); }
+  50%{ transform: translateY(-60vh) translateX(20px); }
+  100%{ transform: translateY(-120vh) translateX(-10px); }
+}
+.glitter{
+  position:absolute; width:3px; height:3px; border-radius:50%;
+  background: var(--gold); opacity:0; box-shadow: 0 0 6px 1px rgba(244,201,93,0.9);
+  animation: kelap linear infinite;
+}
+@keyframes kelap{ 0%,100%{ opacity:0; } 50%{ opacity:1; } }
+
+/* ============================================================
+   7. ANIMASI TEKS MASUK
+   ============================================================ */
+.animasi-masuk{ animation: munculTeks .9s var(--ease) both; }
+@keyframes munculTeks{ from{ opacity:0; transform: translateY(16px); } to{ opacity:1; transform: translateY(0); } }
+
+/* ============================================================
+   8. TYPEWRITER
+   ============================================================ */
+.blok-typewriter{ display:flex; flex-direction:column; gap:22px; text-align:left; }
+@media (min-width: 620px){
+  .blok-typewriter{ flex-direction:row; align-items:flex-start; text-align:left; }
+  .blok-typewriter .kolom-teks{ flex: 1.2; }
+  .blok-typewriter .kolom-foto{ flex: 1; }
+}
+.kolom-foto .galeri-foto{ grid-template-columns: repeat(2, 1fr); margin-bottom:0; }
+#kotak-typewriter{
+  min-height: 220px;
+  font-family: var(--font-display);
+  font-size: clamp(19px, 4.5vw, 24px);
+  line-height:1.65;
+  color: var(--ink);
+}
+body.lampu-mati #kotak-typewriter{ color: var(--dark-text); }
+.kursor{ display:inline-block; width:2px; background:var(--rose); margin-left:2px; animation: kedip 1s steps(1) infinite; }
+@keyframes kedip{ 50%{ opacity:0; } }
+
+/* ============================================================
+   9. KUE & LILIN
+   ============================================================ */
+.panggung-kue{ margin: 6px auto 22px auto; width: 200px; }
+.kue{ position:relative; }
+.lapisan-kue{
+  background: linear-gradient(180deg, #FFE3EC, #FFC7DC);
+  border-radius: 10px 10px 4px 4px; height:70px; position:relative;
+  box-shadow: inset 0 -6px 0 rgba(240,98,140,0.25);
+}
+.lapisan-kue.kecil{
+  width:140px; margin:0 auto; height:46px;
+  background: linear-gradient(180deg, #FFF1CE, #FFDE9E);
+  box-shadow: inset 0 -6px 0 rgba(244,201,93,0.35);
+}
+.lilin{
+  position:absolute; top:-34px; left:50%; transform: translateX(-50%);
+  width:8px; height:34px; background: linear-gradient(180deg,#fff, #FFE9C9);
+  border-radius:3px; cursor:pointer;
+}
+.api{
+  position:absolute; top:-16px; left:50%; transform: translateX(-50%);
+  width:12px; height:18px;
+  background: radial-gradient(circle at 50% 30%, #FFF6C9, var(--gold) 60%, #FF7A3D 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: nyalaApi 1.1s ease-in-out infinite alternate;
+  transition: opacity .4s, transform .4s;
+}
+@keyframes nyalaApi{ 0%{ transform: translateX(-50%) scale(1) rotate(-2deg); } 100%{ transform: translateX(-50%) scale(1.12) rotate(2deg); } }
+.api.padam{ opacity:0; transform: translateX(-50%) scale(0.2); }
+.asap{ position:absolute; top:-20px; left:50%; transform: translateX(-50%); width:6px; height:6px; background: rgba(200,200,200,0.5); border-radius:50%; opacity:0; filter: blur(2px); }
+.asap.aktif{ animation: ngebul 1.6s ease-out forwards; }
+@keyframes ngebul{ 0%{ opacity:.7; transform: translate(-50%,0) scale(1); } 100%{ opacity:0; transform: translate(-50%,-40px) scale(3); } }
+.usia-teks{
+  margin-top: 16px; font-family: var(--font-display);
+  font-size: clamp(22px, 5.5vw, 30px);
+  opacity:0; transform: translateY(10px);
+  transition: opacity .8s var(--ease), transform .8s var(--ease);
+}
+.usia-teks.tampil{ opacity:1; transform:translateY(0); }
+
+/* ============================================================
+   10. PESAN SUKSES (Formspree)
+   ============================================================ */
+.pesan-sukses{
+  display:none;
+  background: linear-gradient(135deg, rgba(240,98,140,0.12), rgba(201,167,235,0.12));
+  border: 1.5px solid rgba(240,98,140,0.3);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-top: 14px;
+  font-size: 14.5px;
+  color: var(--ink);
+}
+body.lampu-mati .pesan-sukses{ color: var(--dark-text); border-color: rgba(244,201,93,0.35); }
+.pesan-sukses.tampil{ display:block; animation: munculTeks .6s var(--ease) both; }
+.pesan-error{ color:#C23A5B; font-size:13px; margin-top:10px; display:none; }
+.pesan-error.tampil{ display:block; }
+
+@media (max-width: 420px){ .kartu{ padding: 30px 20px; } }
+@media (prefers-reduced-motion: reduce){
+  *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="lapisan-dekorasi" id="lapisanDekorasi"></div>
+
+<!-- ============================================================
+     HALAMAN 1 — LOGIN
+     ============================================================ -->
+<section class="page aktif" id="page-login">
+  <div class="kartu">
+    <p class="eyebrow">Khusus Untukmu</p>
+
+    <!-- 2 FOTO LUCU di sekitar form login — ganti src masing-masing -->
+    <div class="baris-foto-bulat">
+      <img class="foto-bulat" src="https://placehold.co/220x220/FFD3E0/833B58?text=Foto+1" alt="Foto lucu dia 1">
+      <img class="foto-bulat" src="https://placehold.co/220x220/C9A7EB/FFFFFF?text=Foto+2" alt="Foto lucu dia 2">
+    </div>
+
+    <h1 class="judul">Masuk Dulu, Yuk 🔐</h1>
+    <p class="teks">Sebelum lanjut, isi datanya dulu ya. Passwordnya cuma kamu yang tahu kok~</p>
+
+    <form id="formLogin">
+      <div class="grup-input">
+        <label for="inputNama">Nama Kamu</label>
+        <input type="text" id="inputNama" placeholder="Tulis nama kamu di sini" required>
+      </div>
+      <div class="grup-input">
+        <label for="inputTanggal">Tanggal Lahir</label>
+        <input type="date" id="inputTanggal" required>
+      </div>
+      <div class="grup-input">
+        <label for="inputPassword">Password Rahasia</label>
+        <input type="password" id="inputPassword" placeholder="•••••••" required>
+        <!-- Sesuaikan clue ini dengan PASSWORD_RAHASIA di bagian <script> -->
+        <p class="petunjuk">Clue: nama panggilan sayang dari aku ke kamu 💕</p>
+      </div>
+      <button type="submit" class="tombol tombol-utama">Masuk ✨</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN 2 — UCAPAN UTAMA
+     ============================================================ -->
+<section class="page" id="page-ucapan">
+  <div class="kartu">
+    <h1 class="judul animasi-masuk" id="judulUcapan">Happy Birthday, Sayang! ✨</h1>
+
+    <!-- GANTI paragraf ucapan ini dengan kata-kata kamu sendiri -->
+    <p class="teks animasi-masuk" style="animation-delay:.15s">
+      Di hari spesial ini, aku cuma mau bilang: makasih udah jadi kamu yang selalu bikin
+      hari-hariku lebih berwarna. Semoga di usia baru ini kamu makin bahagia, makin sehat,
+      dan semua mimpi kamu pelan-pelan jadi kenyataan. Aku bangga banget punya kamu. 🤍
+    </p>
+
+    <!-- KOLASE 3-4 FOTO KENANGAN — tambah/hapus <img> sesuai jumlah foto kamu -->
+    <div class="galeri-foto animasi-masuk" style="animation-delay:.25s">
+      <img class="foto-galeri" src="https://placehold.co/300x300/FFD3E0/833B58?text=Kenangan+1" alt="Foto kenangan 1">
+      <img class="foto-galeri" src="https://placehold.co/300x300/FF9EBB/FFFFFF?text=Kenangan+2" alt="Foto kenangan 2">
+      <img class="foto-galeri" src="https://placehold.co/300x300/C9A7EB/FFFFFF?text=Kenangan+3" alt="Foto kenangan 3">
+      <img class="foto-galeri" src="https://placehold.co/300x300/F4C95D/4A2545?text=Kenangan+4" alt="Foto kenangan 4">
+    </div>
+
+    <div class="baris-tombol animasi-masuk" style="animation-delay:.35s">
+      <button class="tombol tombol-sekunder" id="btnGakMau">Enggak Mau/Selesai ❌</button>
+      <button class="tombol tombol-utama" id="btnLanjutRayakan">Lanjut Rayakan? 🎉</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN PENUTUP (jika klik "Enggak Mau")
+     ============================================================ -->
+<section class="page" id="page-penutup">
+  <div class="kartu">
+    <h1 class="judul">Yaudah deh 😅</h1>
+    <p class="teks">
+      Nggak apa-apa, tapi tau nggak? Aku tetap sayang kamu kok, hari ini dan seterusnya. 💛
+      Kapan-kapan buka lagi ya websitenya kalau berubah pikiran~
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN 3 — MULTIMEDIA & MUSIK RANDOM
+     ============================================================ -->
+<section class="page" id="page-video">
+  <div class="kartu">
+    <h1 class="judul">Yeayyy! 🥰</h1>
+    <p class="teks">Nih, ada video random buat kamu:</p>
+
+    <!-- 2 VIDEO berdampingan (otomatis stack di HP) — ganti src masing-masing source -->
+    <div class="galeri-video">
+      <video controls playsinline>
+        <source src="video-random-1.mp4" type="video/mp4">
+        Browser kamu tidak mendukung tag video.
+      </video>
+      <video controls playsinline>
+        <source src="video-random-2.mp4" type="video/mp4">
+        Browser kamu tidak mendukung tag video.
+      </video>
+    </div>
+
+    <!-- 2-3 FOTO LUCU di sekitar video -->
+    <div class="galeri-foto">
+      <img class="foto-galeri" src="https://placehold.co/300x300/FFC857/4A2545?text=Foto+A" alt="Foto lucu A">
+      <img class="foto-galeri" src="https://placehold.co/300x300/F0628C/FFFFFF?text=Foto+B" alt="Foto lucu B">
+      <img class="foto-galeri" src="https://placehold.co/300x300/C9A7EB/FFFFFF?text=Foto+C" alt="Foto lucu C">
+    </div>
+
+    <p class="teks">Mau tambahin musik biar lebih seru gak? 🎵</p>
+    <div class="baris-tombol">
+      <button class="tombol tombol-sekunder" id="btnGakUsahLagu">Gak Usah</button>
+      <button class="tombol tombol-utama" id="btnMauLagu">Mau Banget!</button>
+    </div>
+
+    <!-- GANTI src audio berikut dengan file lagu ulang tahun pilihan kamu -->
+    <audio id="audioLagu" loop>
+      <source src="lagu-ulang-tahun.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN 4 — TEKS BERURUTAN (TYPEWRITER) + GRID 4 FOTO
+     ============================================================ -->
+<section class="page" id="page-typewriter">
+  <div class="kartu">
+    <div class="blok-typewriter">
+      <div class="kolom-teks">
+        <div id="kotak-typewriter"></div>
+        <button class="tombol tombol-utama" id="btnLanjutTypewriter" style="display:none;">Lanjut 🎂</button>
+      </div>
+      <div class="kolom-foto">
+        <!-- GRID 4 FOTO TERBAIK — ganti src masing-masing -->
+        <div class="galeri-foto">
+          <img class="foto-galeri" src="https://placehold.co/300x300/FFD3E0/833B58?text=Foto+1" alt="Foto terbaik 1">
+          <img class="foto-galeri" src="https://placehold.co/300x300/FF9EBB/FFFFFF?text=Foto+2" alt="Foto terbaik 2">
+          <img class="foto-galeri" src="https://placehold.co/300x300/C9A7EB/FFFFFF?text=Foto+3" alt="Foto terbaik 3">
+          <img class="foto-galeri" src="https://placehold.co/300x300/F4C95D/4A2545?text=Foto+4" alt="Foto terbaik 4">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN 5 — TIUP LILIN
+     ============================================================ -->
+<section class="page" id="page-candle">
+  <div class="kartu">
+    <h1 class="judul">Waktunya Tiup Lilin! 🎂</h1>
+    <p class="teks">Klik lilinnya buat tiup, terus jangan lupa bikin harapan ya!</p>
+
+    <div class="panggung-kue">
+      <div class="kue">
+        <div class="lilin" id="lilin">
+          <div class="api" id="apiLilin"></div>
+          <div class="asap" id="asapLilin"></div>
+        </div>
+        <div class="lapisan-kue"></div>
+        <div class="lapisan-kue kecil"></div>
+      </div>
+    </div>
+
+    <!-- Ganti angka usia di variabel USIA pada bagian <script> -->
+    <p class="usia-teks" id="teksUsia">Selamat Ulang Tahun yang ke-XX! 🎂✨</p>
+
+    <!-- 2 FOTO PALING IMUT -->
+    <div class="galeri-foto" style="margin-top:20px; grid-template-columns: repeat(2,1fr); max-width:280px; margin-left:auto; margin-right:auto;">
+      <img class="foto-galeri" src="https://placehold.co/300x300/1C1030/F4C95D?text=Imut+1" alt="Foto imut 1">
+      <img class="foto-galeri" src="https://placehold.co/300x300/1C1030/FF9EBB?text=Imut+2" alt="Foto imut 2">
+    </div>
+
+    <button class="tombol tombol-utama" id="btnLanjutHarapan" style="display:none; margin-top:14px;">Lanjut Bikin Harapan 💫</button>
+  </div>
+</section>
+
+<!-- ============================================================
+     HALAMAN 6 — HARAPAN (kirim ke email via Formspree)
+     ============================================================ -->
+<section class="page" id="page-harapan">
+  <div class="kartu">
+    <h1 class="judul">Harapan Kamu 💖</h1>
+    <p class="teks">Tulis harapan kamu di sini, nanti otomatis terkirim ke email aku.</p>
+
+    <!--
+      INTEGRASI FORMSPREE:
+      1. Daftar gratis di https://formspree.io lalu buat form baru.
+      2. Salin endpoint-nya (bentuknya: https://formspree.io/f/xxxxxxx)
+      3. Tempel di atribut action di bawah ini, GANTI "GANTI_DENGAN_ID_FORMSPREE_ANDA"
+      Form ini dikirim lewat JavaScript (fetch) supaya halaman tidak reload
+      dan pesan sukses bisa tampil rapi tanpa merusak tampilan.
+    -->
+    <form id="formHarapan" action="https://formspree.io/f/GANTI_DENGAN_ID_FORMSPREE_ANDA" method="POST">
+      <div class="grup-input">
+        <label for="harapan1">Apa yang kamu harapkan di usiamu yang baru ini?</label>
+        <textarea name="harapan_usia_baru" id="harapan1" placeholder="Tulis harapanmu..." required></textarea>
+      </div>
+      <div class="grup-input">
+        <label for="harapan2">Apa yang kamu harapkan untuk aku kedepannya?</label>
+        <textarea name="harapan_untuk_aku" id="harapan2" placeholder="Tulis harapanmu..." required></textarea>
+      </div>
+      <!-- Field tersembunyi supaya subjek email dari Formspree lebih jelas -->
+      <input type="hidden" name="_subject" value="Harapan Ulang Tahun 💌">
+
+      <button type="submit" class="tombol tombol-utama" id="btnKirimHarapan">Kirim Harapan 💖</button>
+      <p class="pesan-error" id="pesanError">Waduh, gagal terkirim. Coba cek koneksi lalu klik kirim lagi ya.</p>
+    </form>
+
+    <div class="pesan-sukses" id="pesanSukses">
+      Yeay, harapan kamu udah terkirim! 💌 Makasih ya udah main sampai akhir,
+      semoga semua yang kamu tulis tadi beneran jadi kenyataan. 🤍
+    </div>
+
+    <!-- KOLASE 3-4 FOTO PENUTUP -->
+    <div class="galeri-foto" style="margin-top:22px;">
+      <img class="foto-galeri" src="https://placehold.co/300x300/FFD3E0/833B58?text=Penutup+1" alt="Foto penutup 1">
+      <img class="foto-galeri" src="https://placehold.co/300x300/FF9EBB/FFFFFF?text=Penutup+2" alt="Foto penutup 2">
+      <img class="foto-galeri" src="https://placehold.co/300x300/C9A7EB/FFFFFF?text=Penutup+3" alt="Foto penutup 3">
+      <img class="foto-galeri" src="https://placehold.co/300x300/F4C95D/4A2545?text=Penutup+4" alt="Foto penutup 4">
+    </div>
+  </div>
+</section>
+
+<script>
+/* ================================================================
+   KONFIGURASI — SEMUA YANG PERLU KAMU GANTI ADA DI SINI
+   ================================================================ */
+const NAMA_DIA          = "Sayang";
+const PASSWORD_RAHASIA  = "sayangku";       // GANTI password login
+const USIA               = "20";            // GANTI usia dia
+
+/* ================================================================
+   NAVIGASI ANTAR HALAMAN
+   ================================================================ */
+function tampilkanHalaman(idHalaman){
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('aktif'));
+  document.getElementById(idHalaman).classList.add('aktif');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(idHalaman === 'page-ucapan') mulaiAnimasiUcapan();
+  if(idHalaman === 'page-typewriter') mulaiTypewriter();
+}
+
+/* ================================================================
+   1. LOGIN
+   ================================================================ */
+document.getElementById('formLogin').addEventListener('submit', function(e){
+  e.preventDefault();
+  const password = document.getElementById('inputPassword').value.trim().toLowerCase();
+  if(password === PASSWORD_RAHASIA.toLowerCase()){
+    tampilkanHalaman('page-ucapan');
+  } else {
+    const pesanLucu = [
+      "Ehh salah tuh! Coba inget-inget lagi panggilan sayangnya 😝",
+      "Bukan itu passwordnya~ masa lupa sih? 🥲",
+      "Yah meleset! Coba sekali lagi ya 💭"
+    ];
+    alert(pesanLucu[Math.floor(Math.random()*pesanLucu.length)]);
+  }
+});
+
+/* ================================================================
+   2. HALAMAN UCAPAN
+   ================================================================ */
+function mulaiAnimasiUcapan(){
+  const nama = document.getElementById('inputNama').value.trim();
+  document.getElementById('judulUcapan').textContent = `Happy Birthday, ${nama ? nama : NAMA_DIA}! ✨`;
+  ledakkanKonfeti(40);
+}
+document.getElementById('btnGakMau').addEventListener('click', () => tampilkanHalaman('page-penutup'));
+document.getElementById('btnLanjutRayakan').addEventListener('click', () => tampilkanHalaman('page-video'));
+
+/* ================================================================
+   3. HALAMAN VIDEO
+   ================================================================ */
+document.getElementById('btnMauLagu').addEventListener('click', () => {
+  const audio = document.getElementById('audioLagu');
+  audio.play().catch(() => {});
+  tampilkanHalaman('page-typewriter');
+});
+document.getElementById('btnGakUsahLagu').addEventListener('click', () => tampilkanHalaman('page-typewriter'));
+
+/* ================================================================
+   4. TYPEWRITER — surat panjang, GANTI isi array di bawah ini
+   ================================================================ */
+const pesanTypewriter = [
+  "Sebelum lanjut ke acara utama...",
+  "Aku cuma mau kamu tau,",
+  "bahwa hari ini spesial bukan cuma karena kuenya,",
+  "tapi karena kamu ada di dalamnya.",
+  "Setiap detik yang kita lewatin bareng itu berharga buat aku,",
+  "dan aku nggak sabar buat lewatin lebih banyak lagi bareng kamu.",
+  "Makasih sudah lahir ke dunia ini. 🤍"
+];
+let sudahJalanTypewriter = false;
+function mulaiTypewriter(){
+  if(sudahJalanTypewriter) return;
+  sudahJalanTypewriter = true;
+  const kotak = document.getElementById('kotak-typewriter');
+  const tombolLanjut = document.getElementById('btnLanjutTypewriter');
+  kotak.innerHTML = '<span class="kursor">&nbsp;</span>';
+  let indexKalimat = 0, indexHuruf = 0, teksBerjalan = "";
+  function ketikKalimat(){
+    if(indexKalimat >= pesanTypewriter.length){
+      tombolLanjut.style.display = 'inline-flex';
+      return;
+    }
+    const kalimat = pesanTypewriter[indexKalimat];
+    if(indexHuruf <= kalimat.length){
+      teksBerjalan = kalimat.substring(0, indexHuruf);
+      kotak.innerHTML = teksBerjalan + '<span class="kursor">&nbsp;</span>';
+      indexHuruf++;
+      setTimeout(ketikKalimat, 38);
+    } else {
+      indexKalimat++; indexHuruf = 0;
+      setTimeout(() => { kotak.innerHTML = '<span class="kursor">&nbsp;</span>'; ketikKalimat(); }, 900);
+    }
+  }
+  ketikKalimat();
+}
+document.getElementById('btnLanjutTypewriter').addEventListener('click', () => tampilkanHalaman('page-candle'));
+
+/* ================================================================
+   5. TIUP LILIN
+   ================================================================ */
+document.getElementById('lilin').addEventListener('click', function(){
+  const api = document.getElementById('apiLilin');
+  const asap = document.getElementById('asapLilin');
+  if(api.classList.contains('padam')) return;
+  api.classList.add('padam');
+  asap.classList.add('aktif');
+  document.body.classList.add('lampu-mati');
+  mulaiGlitter();
+  setTimeout(() => {
+    document.getElementById('teksUsia').textContent = `Selamat Ulang Tahun yang ke-${USIA}! 🎂✨`;
+    document.getElementById('teksUsia').classList.add('tampil');
+    document.getElementById('btnLanjutHarapan').style.display = 'inline-flex';
+    ledakkanKonfeti(50);
+  }, 500);
+});
+document.getElementById('btnLanjutHarapan').addEventListener('click', () => tampilkanHalaman('page-harapan'));
+
+/* ================================================================
+   6. FORM HARAPAN → KIRIM VIA FORMSPREE (AJAX, tanpa reload halaman)
+   ================================================================ */
+document.getElementById('formHarapan').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const form = e.target;
+  const tombol = document.getElementById('btnKirimHarapan');
+  const pesanSukses = document.getElementById('pesanSukses');
+  const pesanError = document.getElementById('pesanError');
+
+  pesanError.classList.remove('tampil');
+  tombol.disabled = true;
+  tombol.textContent = 'Mengirim...';
+
+  try{
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: new FormData(form),
+      headers: { 'Accept': 'application/json' }
+    });
+
+    if(response.ok){
+      form.style.display = 'none';
+      pesanSukses.classList.add('tampil');
+      ledakkanKonfeti(30);
+    } else {
+      throw new Error('Gagal kirim');
+    }
+  } catch(err){
+    pesanError.classList.add('tampil');
+    tombol.disabled = false;
+    tombol.textContent = 'Kirim Harapan 💖';
+  }
+});
+
+/* ================================================================
+   DEKORASI: KONFETI, BALON, GLITTER — murni JS, tanpa library
+   ================================================================ */
+const warnaKonfeti = ['#FF9EBB', '#F4C95D', '#C9A7EB', '#F0628C', '#FFFFFF'];
+
+function ledakkanKonfeti(jumlah){
+  const lapisan = document.getElementById('lapisanDekorasi');
+  for(let i=0; i<jumlah; i++){
+    const k = document.createElement('div');
+    k.className = 'konfeti';
+    k.style.left = Math.random()*100 + 'vw';
+    k.style.background = warnaKonfeti[Math.floor(Math.random()*warnaKonfeti.length)];
+    k.style.animationDuration = (2.5 + Math.random()*2.5) + 's';
+    k.style.animationDelay = (Math.random()*0.6) + 's';
+    lapisan.appendChild(k);
+    setTimeout(() => k.remove(), 6000);
+  }
+}
+
+function buatBalonLatar(jumlah){
+  const lapisan = document.getElementById('lapisanDekorasi');
+  const warnaBalon = ['#FFD3E0', '#C9A7EB', '#FFC857', '#FF9EBB'];
+  for(let i=0; i<jumlah; i++){
+    const b = document.createElement('div');
+    b.className = 'balon';
+    b.style.left = Math.random()*100 + 'vw';
+    b.style.background = warnaBalon[Math.floor(Math.random()*warnaBalon.length)];
+    b.style.animationDuration = (14 + Math.random()*10) + 's';
+    b.style.animationDelay = (Math.random()*8) + 's';
+    lapisan.appendChild(b);
+  }
+}
+
+function mulaiGlitter(){
+  const lapisan = document.getElementById('lapisanDekorasi');
+  for(let i=0; i<28; i++){
+    const g = document.createElement('div');
+    g.className = 'glitter';
+    g.style.left = Math.random()*100 + 'vw';
+    g.style.top = Math.random()*100 + 'vh';
+    g.style.animationDuration = (1.5 + Math.random()*2.5) + 's';
+    g.style.animationDelay = (Math.random()*3) + 's';
+    lapisan.appendChild(g);
+  }
+}
+
+buatBalonLatar(8);
+</script>
+</body>
+</html>
