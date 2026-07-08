@@ -646,7 +646,7 @@ function mulaiTypewriter(){
       teksBerjalan = kalimat.substring(0, indexHuruf);
       kotak.innerHTML = teksBerjalan + '<span class="kursor">&nbsp;</span>';
       indexHuruf++;
-      setTimeout(ketikKalimat, 60);
+      setTimeout(ketikKalimat, 70);
     } else {
       indexKalimat++; indexHuruf = 0;
       setTimeout(() => { kotak.innerHTML = '<span class="kursor">&nbsp;</span>'; ketikKalimat(); }, 900);
