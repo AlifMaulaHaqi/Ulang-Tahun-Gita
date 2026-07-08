@@ -584,7 +584,7 @@ document.getElementById('formLogin').addEventListener('submit', function(e){
    ================================================================ */
 function mulaiAnimasiUcapan(){
   const nama = document.getElementById('inputNama').value.trim();
-  document.getElementById('judulUcapan').textContent = `Happy Birthday, ${nama ? nama : NAMA_DIA}! ✨`;
+  document.getElementById('judulUcapan').textContent = `Selamat Ulang Tahun, ${nama ? nama : NAMA_DIA}! ✨`;
   ledakkanKonfeti(40);
 }
 document.getElementById('btnGakMau').addEventListener('click', () => tampilkanHalaman('page-penutup'));
@@ -646,7 +646,7 @@ function mulaiTypewriter(){
       teksBerjalan = kalimat.substring(0, indexHuruf);
       kotak.innerHTML = teksBerjalan + '<span class="kursor">&nbsp;</span>';
       indexHuruf++;
-      setTimeout(ketikKalimat, 38);
+      setTimeout(ketikKalimat, 60);
     } else {
       indexKalimat++; indexHuruf = 0;
       setTimeout(() => { kotak.innerHTML = '<span class="kursor">&nbsp;</span>'; ketikKalimat(); }, 900);
